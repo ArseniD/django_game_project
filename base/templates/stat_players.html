@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if stat_players %}
+
+    <form action="/stat_players/result" method='get'>
+        {% csrf_token %}
+        <label for="start_date">Start date: {{ form.fromdate }} </label>
+        <label for="end_date">End date: {{ form.todate }} </label>
+
+        <input type="submit" value="Search">
+   </form>
+
+<p></p>
+
+           <table border="1">
+              <tr class="head"><td colspan=7 align="center">Players registation</tr>
+              <tr>
+                  <th>  Id             </th>
+                  <th>  Target date    </th>
+                  <th>  Register count </th>
+                  <th>  Created        </th>
+              </tr>
+
+                {% for player in stat_players %}
+
+                <td>   {{ player.id }}                                                        </td>
+                <td>   {{ player.target_date|date:"d-m-Y" }}                                  </td>
+                <td>   {{ player.register_count }}                                            </td>
+                <td>   {{ player.created }}                                                   </td>
+
+
+              </tr>
+
+               {% endfor %}
+
+           </table>
+
+    {% endif %}
+
+
+
+<div class="pagination">
+   <span class="step-links">
+       {% if stat_players.has_previous %}
+           <a href="?page={{ stat_players.previous_page_number }}">prev</a>
+       {% endif %}
+       <span class="current">
+           Page {{ stat_players.number }} of {{ stat_players.paginator.num_pages }}
+       </span>
+       {% if stat_players.has_next %}
+           <a href="?page={{ stat_players.next_page_number }}">next</a>
+       {% endif %}
+   </span>
+</div>
+
+{% endblock %}
+
+
+
+

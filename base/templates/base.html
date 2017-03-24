@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}My amazing site{% endblock %}</title>
+</head>
+
+{% if user.is_authenticated %}
+<p>User online: <b>{{ user }}</b></p>
+{% endif %}
+<body>
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/home/">Home page</a></li>
+            <li><a href="/players_list/">Players list</a></li>
+            <li><a href="/stat_players/">Players statistics</a></li>
+            <li><a href="/admin/">Admin</a></li>
+
+            {% if user.is_authenticated %}
+            <a href="/logout/">Logout</a>
+            {% else %}
+            <a href="/login/?next={{ request.path }}">Login</a>
+            {% endif %}
+
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
+

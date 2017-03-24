@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+{% load extratags %}
+
+    {% if errors %}
+          {% for error in errors %}
+          <p style="color: red;">{{ error }}</p>
+          {% endfor %}
+    {% endif %}
+
+
+<p>You searched for: <strong>{{ query_email }}</strong></p>
+<p>Found {{ email|length }} email{{ email|pluralize }}.</p>
+
+
+{% if email %}
+
+         <table border="1">
+            <tr class="head"><td colspan=7 align="center">Players</tr>
+                <tr>
+                    <th>    Id             </th>
+                    <th>    Name           </th>
+                    <th>    Email          </th>
+                    <th>    Password hash  </th>
+                    <th>    Xp             </th>
+                    <th>    Operations     </th>
+                </tr>
+
+                         {% for player in email %}
+
+                         <td>   {{ player.id}}                                                          </td>
+                         <td>   {{ player.nickname }}                                                   </td>
+                         <td>   {{ player.email}}                                                       </td>
+                         <td>   {{ player.password_hash|asterisk}}                                      </td>
+                         <td>   {{ player.xp}}                                                          </td>
+                         <td>
+                              <a href="/players_change_xp/{{player.id}}" style="text-decoration: none;">
+                              <input type="submit" class="btn" value="edit XP" name="mybtn"</a>         </td>
+            </tr>
+         {% endfor %}
+        </table>
+
+    {% else %}
+        <p>No email matched your search criteria.</p>
+{% endif %}
+
+{% endblock %}
+

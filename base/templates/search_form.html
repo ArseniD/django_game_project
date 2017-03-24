@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% load extratags %}
+
+
+    <form action="/players/" method="get">
+        <label for="email">Player email:</label>
+        {{ form.email }}
+        <input type="submit" value="Search">
+    </form>
+
+<p></p>
+
+    {% if players_list %}
+           <table border="1">
+              <tr class="head"><td colspan=7 align="center">Players</tr>
+              <tr>
+                  <th>  Id             </th>
+                  <th>  Name           </th>
+                  <th>  Email          </th>
+                  <th>  Password hash  </th>
+                  <th>  Xp             </th>
+                  <th>  Operations     </th>
+
+              </tr>
+                {% for player in players_list %}
+
+                <td>   {{ player.id }}                                                        </td>
+                <td>   {{ player.nickname }}                                                  </td>
+                <td>   {{ player.email }}                                                     </td>
+                <td>   {{ player.password_hash|asterisk}}                                     </td>
+                <td>   {{ player.xp }}                                                        </td>
+                <td>
+                       <a href="/players_change_xp/{{player.id}}" style="text-decoration: none;">
+                       <input type="submit" class="btn" value="edit XP" name="mybtn"</a>      </td>
+              </tr>
+
+               {% endfor %}
+
+           </table>
+
+    {% endif %}
+
+<div class="pagination">
+   <span class="step-links">
+       {% if players_list.has_previous %}
+           <a href="?page={{ players_list.previous_page_number }}">prev</a>
+       {% endif %}
+       <span class="current">
+           Page {{ players_list.number }} of {{ players_list.paginator.num_pages }}
+       </span>
+       {% if players_list.has_next %}
+           <a href="?page={{ players_list.next_page_number }}">next</a>
+       {% endif %}
+   </span>
+</div>
+
+{% endblock %}

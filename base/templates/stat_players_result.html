@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% load endless %}
+
+{% if stat_players %}
+    <form action="" method='get'>
+        {% csrf_token %}
+        <label for="start_date">Start date: {{ form.fromdate }} </label>
+        <label for="end_date">End date: {{ form.todate }} </label>
+        <input type="submit" value="Search">
+   </form>
+
+<p></p>
+
+           <table border="1">
+              <tr class="head"><td colspan=7 align="center">Players registation</tr>
+              <tr>
+                  <th>  Id             </th>
+                  <th>  Target date    </th>
+                  <th>  Register count </th>
+                  <th>  Created        </th>
+              </tr>
+
+                {% paginate 20 stat_players %}
+                {% for player in stat_players %}
+
+                <td>   {{ player.id }}                                                        </td>
+                <td>   {{ player.target_date|date:"d-m-Y" }}                                  </td>
+                <td>   {{ player.register_count }}                                            </td>
+                <td>   {{ player.created }}                                                   </td>
+
+              </tr>
+               {% endfor %}
+           </table>
+    {% endif %}
+
+{% show_pages %}
+{% endblock %}
+
+
+
+

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<p>Player:<b> {{player.nickname}}</b></p>
+
+    <form action="/changed_xp/{{player.id}}/" method="post">{% csrf_token %}
+        <p>Total XP : {{player.xp}} </p>
+        <label for="xp">Change XP : </label>{{form.xp}}
+        <input type="submit" value="OK">
+        <p>Example: input 100 or -100 to change</p>
+    </form>
+
+{% if form.xp.data != None %}
+    <p>XP changed to : {{ form.xp.data }}</p>
+{% endif %}
+
+{% endblock %}
